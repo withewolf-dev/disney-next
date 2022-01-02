@@ -54,7 +54,7 @@ const NavHeader = ({ providers }) => {
             </a>
           </NavMenu>
           <SignOut>
-            <UserImg src={session.photo?.toString()} alt={"photo"} />
+            <UserImg src={session.user.image} alt={session.user.name} />
             <DropDown>
               <span onClick={() => signOut()}>Sign out</span>
             </DropDown>

@@ -148,8 +148,6 @@ export async function getServerSideProps(ctx) {
   // extract the data
   let movies = await response.json();
 
-  console.log(movies);
-
   return {
     props: {
       movies,

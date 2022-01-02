@@ -5,9 +5,9 @@ import { connectToDatabase } from "../../../util/mongodb";
 export default async function handler(req, res) {
   // switch the methods
   switch (req.method) {
-    // case "GET": {
-    //   return getPosts(req, res);
-    // }
+    case "GET": {
+      return getMovie(req, res);
+    }
 
     // case "POST": {
     //   return addPost(req, res);
@@ -69,6 +69,29 @@ async function deleteMovie(req, res) {
     });
   } catch (error) {
     // returning an error
+    return res.json({
+      message: new Error(error).message,
+      success: false,
+    });
+  }
+}
+
+async function getMovie(req, res) {
+  const { movieId } = req.query;
+
+  try {
+    // connect to the database
+    let { db } = await connectToDatabase();
+
+    // update the published status of the post
+    const movie = await db
+      .collection("movies")
+      .findOne({ _id: new ObjectId(movieId) });
+
+    // return a message
+    res.json({ movie });
+  } catch (error) {
+    // return an error
     return res.json({
       message: new Error(error).message,
       success: false,

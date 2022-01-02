@@ -24,6 +24,7 @@ const AddCinema = (props: Props) => {
         subTitle,
         backgroundImg,
         cardImg,
+        type,
         published: false,
         createdAt: new Date().toISOString(),
       };
