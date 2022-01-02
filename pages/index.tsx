@@ -64,13 +64,14 @@ export async function getServerSideProps(context: GetSessionParams) {
   const providers = await getProviders();
   const session = await getSession(context);
 
-  const url = "http://localhost:3000/";
+  const { FETCH_URL } = process.env;
+
   var tempRecommends: any[] = [];
   var tempNewDisney: any[] = [];
   var tempOriginals: any[] = [];
   var tempTrending: any[] = [];
 
-  let response = await fetch(`${url}/api/movies`);
+  let response = await fetch(`${FETCH_URL}/movies`);
   // extract the data
   let movies = await response.json();
 

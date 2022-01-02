@@ -207,7 +207,8 @@ export default Demo;
 
 export async function getServerSideProps(context) {
   const { id } = context.query;
-  let response = await fetch(`http://localhost:3000/api/movies/${id}`);
+  const { FETCH_URL } = process.env;
+  let response = await fetch(`${FETCH_URL}/movies/${id}`);
   //   // // extract the data
   let movies = await response.json();
 
