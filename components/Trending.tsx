@@ -14,7 +14,7 @@ const Trending = ({ trending }: Props) => {
         {trending &&
           trending.map((trend) => (
             <Wrap key={trend._id}>
-              <Link href={`/movie/${trend._id}`}>
+              <Link href={`/movie/${trend._id}`} passHref>
                 <img src={trend.cardImg} alt="image" />
               </Link>
             </Wrap>

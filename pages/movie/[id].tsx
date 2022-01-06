@@ -1,45 +1,85 @@
+import { GetStaticPaths } from "next";
 import React from "react";
 import styled from "styled-components";
+import { connectToDatabase } from "../../util/mongodb";
+import { ObjectId } from "mongodb";
 
 interface Props {}
 
-const Demo = ({ movies }) => {
-  console.log(movies.movie);
+const Demo = ({ movie }) => {
+  // const movie = JSON.parse(movieDetail);
 
-  const movie = movies.movie;
+  console.log(movie);
 
   return (
     <Container>
-      <Background>
-        <img alt={movie.title} src={movie.backgroundImg} />
-      </Background>
-
-      <ImageTitle>
-        <img alt={movie.title} src={movie.titleImg} />
-      </ImageTitle>
-      <ContentMeta>
-        <Controls>
-          <Player>
-            <img src="/images/play-icon-black.png" alt="" />
-            <span>Play</span>
-          </Player>
-          <Trailer>
-            <img src="/images/play-icon-white.png" alt="" />
-            <span>Trailer</span>
-          </Trailer>
-          <AddList>
-            <span />
-            <span />
-          </AddList>
-          <GroupWatch>
-            <div>
-              <img src="/images/group-icon.png" alt="" />
-            </div>
-          </GroupWatch>
-        </Controls>
-        <SubTitle>{movie.subTitle}</SubTitle>
-        <Description>{movie.description}</Description>
-      </ContentMeta>
+      {movie && (
+        <>
+          <Background>
+            <img alt={movie.title} src={movie.backgroundImg} />
+          </Background>
+          <ImageTitle>
+            <img alt={movie.title} src={movie.titleImg} />
+          </ImageTitle>
+          <ContentMeta>
+            <Controls>
+              <Player>
+                <img src="/images/play-icon-black.png" alt="" />
+                <span>Play</span>
+              </Player>
+              <Trailer>
+                <img src="/images/play-icon-white.png" alt="" />
+                <span>Trailer</span>
+              </Trailer>
+              <AddList>
+                <span />
+                <span />
+              </AddList>
+              <GroupWatch>
+                <div>
+                  <img src="/images/group-icon.png" alt="" />
+                </div>
+              </GroupWatch>
+            </Controls>
+            <SubTitle>{movie.subTitle}</SubTitle>
+            <Description>{movie.description}</Description>
+          </ContentMeta>
+        </>
+      )}
+      {/* {movie && (
+        <>
+          {" "}
+          <Background>
+            <img alt={movie.title} src={movie.backgroundImg} />
+          </Background>
+          <ImageTitle>
+            <img alt={movie.title} src={movie.titleImg} />
+          </ImageTitle>
+          <ContentMeta>
+            <Controls>
+              <Player>
+                <img src="/images/play-icon-black.png" alt="" />
+                <span>Play</span>
+              </Player>
+              <Trailer>
+                <img src="/images/play-icon-white.png" alt="" />
+                <span>Trailer</span>
+              </Trailer>
+              <AddList>
+                <span />
+                <span />
+              </AddList>
+              <GroupWatch>
+                <div>
+                  <img src="/images/group-icon.png" alt="" />
+                </div>
+              </GroupWatch>
+            </Controls>
+            <SubTitle>{movie.subTitle}</SubTitle>
+            <Description>{movie.description}</Description>
+          </ContentMeta>
+        </>
+      )} */}
     </Container>
   );
 };
@@ -205,16 +245,27 @@ const Description = styled.div`
 
 export default Demo;
 
-export async function getServerSideProps(context) {
-  const { id } = context.query;
-  const { FETCH_URL } = process.env;
-  let response = await fetch(`${FETCH_URL}/movies/${id}`);
-  //   // // extract the data
-  let movies = await response.json();
+export const getStaticPaths = async (context) => {
+  const { db } = await connectToDatabase();
+  const movies = await db.collection("movies").find({}).toArray();
 
-  return {
-    props: {
-      movies,
-    }, // will be passed to the page component as props
-  };
+  const paths = movies.map((m) => {
+    const movie = JSON.parse(JSON.stringify(m));
+    return {
+      params: { id: movie._id },
+    };
+  });
+  return { paths, fallback: true };
+};
+
+export async function getStaticProps({ params }) {
+  let { db } = await connectToDatabase();
+
+  const res = await db
+    .collection("movies")
+    .findOne({ _id: new ObjectId(params.id) });
+
+  const movie = await JSON.parse(JSON.stringify(res));
+
+  return { props: { movie } };
 }
