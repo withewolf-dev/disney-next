@@ -1,5 +1,6 @@
 import { signIn } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 import styled from "styled-components";
@@ -17,9 +18,21 @@ const Login = ({ providers }) => {
             <CTALogoOne src={"/images/cta-logo-one.svg"} />
             <SignUp>TAKE SUBSCRIPTION HERE</SignUp>
             <Description>
-              Get Premier Access to Raya and the Last Dragon for an additional
-              fee with a Disney+ subscription. As of 03/26/21, the price of
-              Disney+ and The Disney Bundle will increase by $1.
+              Go to{" "}
+              <Link
+                href={"https://disney-next-neon.vercel.app/dashboard/cinema"}
+              >
+                {" "}
+                to add more movies
+              </Link>{" "}
+              or vist to{" "}
+              <Link
+                href={
+                  "https://disney-next-neon.vercel.app/dashboard/cinema-list"
+                }
+              >
+                edit or delete movies
+              </Link>
             </Description>
             <CTALogoTwo src="/images/cta-logo-two.png" />
           </Cta>

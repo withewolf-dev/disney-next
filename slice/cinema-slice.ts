@@ -6,7 +6,9 @@ export const fetchCinema = createAsyncThunk(
   async (dispatch) => {
     const { FETCH_URL } = process.env;
 
-    let response = await fetch(`http://localhost:3000/api/movies`);
+    let response = await fetch(
+      `https://disney-next-neon.vercel.app/api/movies`
+    );
     // extract the data
     let movies = await response.json();
 
