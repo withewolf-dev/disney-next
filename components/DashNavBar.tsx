@@ -63,7 +63,8 @@ const Nav = styled.nav`
   justify-content: space-around;
   align-items: center;
   padding: 0 36px;
-  letter-spacing: 16px;
+  font-size: 24px;
+  // letter-spacing: 16px;
   z-index: 3;
 `;
 

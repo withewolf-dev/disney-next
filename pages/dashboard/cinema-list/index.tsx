@@ -1,14 +1,19 @@
-import { Movie } from "@mui/icons-material";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import DashNavBar from "../../../components/DashNavBar";
 import UpdateCinema from "../../../components/UpdateCinema";
+import { fetchCinema, Remove, selectCinema } from "../../../slice/cinema-slice";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 
 interface Props {}
 
 const CinemaList = ({ movies }) => {
   const [loading, setloading] = useState(false);
+
+  const select = useAppSelector(selectCinema);
+  const dispatch = useAppDispatch();
+  const { FETCH_URL } = process.env;
 
   const onDelete = async (movieId) => {
     setloading(true);
@@ -19,6 +24,7 @@ const CinemaList = ({ movies }) => {
         method: "DELETE",
         body: movieId,
       });
+      dispatch(Remove({ _id: movieId }));
       setloading(false);
       alert("Movie Deleted");
       // return router.push(router.asPath);
@@ -30,13 +36,17 @@ const CinemaList = ({ movies }) => {
     }
   };
 
+  useEffect(() => {
+    dispatch(fetchCinema());
+  }, []);
+
   return (
     <>
       <DashNavBar />
       <Container>
         <Content>
-          {movies &&
-            movies.map((movie) => (
+          {select.cinemaList &&
+            select.cinemaList.map((movie) => (
               <WrapContent key={movie._id}>
                 <Wrap key={movie._id}>
                   <Image layout="fill" src={`${movie.cardImg}`} alt="image" />
@@ -143,14 +153,16 @@ const Button = styled.button`
 `;
 export default CinemaList;
 
-export async function getServerSideProps(ctx) {
-  let response = await fetch("http://localhost:3000/api/movies");
-  // extract the data
-  let movies = await response.json();
+// export async function getServerSideProps(ctx) {
+//   const { FETCH_URL } = process.env;
 
-  return {
-    props: {
-      movies,
-    },
-  };
-}
+//   let response = await fetch(`${FETCH_URL}/movies`);
+//   // extract the data
+//   let movies = await response.json();
+
+//   return {
+//     props: {
+//       movies,
+//     },
+//   };
+// }

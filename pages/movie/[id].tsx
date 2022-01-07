@@ -9,8 +9,6 @@ interface Props {}
 const Demo = ({ movie }) => {
   // const movie = JSON.parse(movieDetail);
 
-  console.log(movie);
-
   return (
     <Container>
       {movie && (
