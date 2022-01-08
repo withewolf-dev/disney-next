@@ -1,4 +1,5 @@
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
 
@@ -28,9 +29,9 @@ const NavHeader = ({ providers }) => {
       {session && (
         <>
           <NavMenu>
-            <a href="/home">
+            <a href={"/dashboard/cinema"}>
               <img src="/images/home-icon.svg" alt="HOME" />
-              <span>HOME</span>
+              <span>Dashboard</span>
             </a>
             <a>
               <img src="/images/search-icon.svg" alt="SEARCH" />
@@ -77,7 +78,6 @@ const Nav = styled.nav`
   align-items: center;
   padding: 0 36px;
   letter-spacing: 16px;
-  z-index: 3;
 `;
 
 const Logo = styled.a`
@@ -205,6 +205,41 @@ const SignOut = styled.div`
     ${DropDown} {
       opacity: 1;
       transition-duration: 1s;
+    }
+  }
+`;
+
+const NextLink = styled(Link)`
+  span {
+    color: rgb(249, 249, 249);
+    font-size: 13px;
+    letter-spacing: 1.42px;
+    line-height: 1.08;
+    padding: 2px 0px;
+    white-space: nowrap;
+    position: relative;
+    &:before {
+      background-color: rgb(249, 249, 249);
+      border-radius: 0px 0px 4px 4px;
+      bottom: -6px;
+      content: "";
+      height: 2px;
+      left: 0px;
+      opacity: 0;
+      position: absolute;
+      right: 0px;
+      transform-origin: left center;
+      transform: scaleX(0);
+      transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+      visibility: hidden;
+      width: auto;
+    }
+  }
+  &:hover {
+    span:before {
+      transform: scaleX(1);
+      visibility: visible;
+      opacity: 1 !important;
     }
   }
 `;
