@@ -18,21 +18,8 @@ const Login = ({ providers }) => {
             <CTALogoOne src={"/images/cta-logo-one.svg"} />
             <SignUp>TAKE SUBSCRIPTION HERE</SignUp>
             <Description>
-              Go to{" "}
-              <Link
-                href={"https://disney-next-neon.vercel.app/dashboard/cinema"}
-              >
-                {" "}
-                to add more movies
-              </Link>{" "}
-              or vist to{" "}
-              <Link
-                href={
-                  "https://disney-next-neon.vercel.app/dashboard/cinema-list"
-                }
-              >
-                edit or delete movies
-              </Link>
+              After loging in go to dashboard to edit, delete or add new cinema
+              collection
             </Description>
             <CTALogoTwo src="/images/cta-logo-two.png" />
           </Cta>
