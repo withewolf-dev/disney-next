@@ -18,7 +18,7 @@ const Login = ({ providers }) => {
             <CTALogoOne src={"/images/cta-logo-one.svg"} />
             <SignUp>TAKE SUBSCRIPTION HERE</SignUp>
             <Description>
-              After loging in go to dashboard to edit, delete or add new cinema
+              After logging in go to dashboard to edit, delete or add new cinema
               collection
             </Description>
             <CTALogoTwo src="/images/cta-logo-two.png" />
