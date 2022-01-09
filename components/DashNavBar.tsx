@@ -11,6 +11,7 @@ const DashNavBar = (props: Props) => {
         <NavMenu>
           <LinkSpan href={"/dashboard/cinema"}>add cinema</LinkSpan>
           <LinkSpan href={"/dashboard/cinema-list"}> cinema list</LinkSpan>
+          <LinkSpan href={"/"}> home</LinkSpan>
         </NavMenu>
       </Nav>
     </>
