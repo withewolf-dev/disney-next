@@ -1,3 +1,4 @@
+import { CircularProgress } from "@mui/material";
 import React, { useState } from "react";
 import styled from "styled-components";
 import DashNavBar from "../../../components/DashNavBar";
@@ -12,10 +13,11 @@ const AddCinema = (props: Props) => {
   const [backgroundImg, setbackgroundImg] = useState("");
   const [cardImg, setcardImg] = useState("");
   const [type, settype] = useState("");
+  const [loading, setloading] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
+    setloading(true);
     try {
       let movies = {
         title,
@@ -37,6 +39,7 @@ const AddCinema = (props: Props) => {
       let data = await response.json();
 
       if (data.success) {
+        setloading(false);
         settitle("");
         setdescription("");
         settitleImg("");
@@ -121,7 +124,12 @@ const AddCinema = (props: Props) => {
           <option value="recommends">Recommends</option>
           <option value="trending">Trending</option>
         </Select>
-        <button onClick={onSubmit}>submit</button>
+        {!loading && (
+          <button style={{ cursor: "pointer" }} onClick={onSubmit}>
+            submit
+          </button>
+        )}
+        {loading && <CircularProgress />}
       </Container>
     </>
   );
